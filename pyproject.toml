@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling>=1.18,<2.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "truememory"
+version = "0.1.0"
+description = "SOTA-level local agent memory system powered by SQLite and hybrid RRF search."
+readme = "README.md"
+license = "AGPL-3.0-only"
+requires-python = ">=3.10"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+keywords = ["memory", "ai", "agents", "llm", "rag", "sqlite", "mcp", "embeddings"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "model2vec>=0.6.0,<1.0",
+    "sqlite-vec>=0.1.0,<1.0",
+    "numpy>=1.24.0,<3.0",
+    "mcp[cli]>=1.0.0,<2.0",
+    "httpx>=0.27.0,<1.0",
+    "sentence-transformers>=3.0.0,<6.0",
+    "torch>=2.0.0,<3.0",
+    "anthropic>=0.80.0,<1.0",
+    "psutil>=5.9,<8.0",
+    "setproctitle>=1.3,<2.0",
+    "packaging>=21.0",
+]
+
+[project.optional-dependencies]
+clustering = ["hdbscan>=0.8,<0.9"]
+dev = [
+    "pytest>=7.0,<10.0",
+    "pytest-timeout>=2.2,<3.0",
+    "ruff>=0.4,<1.0",
+    "build>=1.2,<2.0"
+]
+
+[project.scripts]
+truememory-mcp = "truememory.mcp_server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["truememory"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers --timeout=120"
+markers = [
+    "network: test performs real network I/O",
+]
+
+[tool.ruff.lint]
+per-file-ignores = { "__init__.py" = ["F401"] }
